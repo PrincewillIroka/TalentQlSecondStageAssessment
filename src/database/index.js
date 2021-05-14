@@ -2,10 +2,12 @@ require('dotenv').config();
 import Sequelize from 'sequelize';
 import config from '../config';
 
+let sequelize;
 export default {
+	sequelize: sequelize,
 	connect() {
 		try {
-			const sequelize = new Sequelize(config.db.database, config.db.user, config.db.pass, {
+			sequelize = new Sequelize(config.db.database, config.db.user, config.db.pass, {
 				host: config.db.host,
 				dialect: 'mysql',
 				logging: false,

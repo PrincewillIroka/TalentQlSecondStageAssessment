@@ -1,6 +1,5 @@
 import http from 'http';
 import app from './app';
-// import database from './models';
 
 const normalizePort = (val) => {
 	const port = parseInt(val, 10);
@@ -44,14 +43,6 @@ server.on('error', errorHandler);
 server.on('listening', async () => {
 	const address = server.address();
 	const bind = typeof address === 'string' ? `pipe ${address}` : `port: ${port}`;
-	// await database.sequelize
-	// 	.sync()
-	// 	.then(() => {
-	// 		console.log('Database connection has been established successfully.');
-	// 	})
-	// 	.catch((err) => {
-	// 		console.error('Unable to connect to the database:', err);
-	// 	});
 	console.log(`Listening on ${bind}`);
 });
 

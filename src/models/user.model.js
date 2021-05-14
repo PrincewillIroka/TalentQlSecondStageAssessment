@@ -1,9 +1,10 @@
 const user = (sequelize, Sequelize) => {
 	const User = sequelize.define('user', {
 		id: {
-			type: Sequelize.NUMBER,
+			type: Sequelize.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
+			allowNull: false,
 		},
 		email: {
 			type: Sequelize.STRING,

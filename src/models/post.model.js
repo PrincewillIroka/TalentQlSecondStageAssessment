@@ -1,7 +1,7 @@
 const post = (sequelize, Sequelize) => {
 	const Post = sequelize.define('post', {
 		id: {
-			type: Sequelize.NUMBER,
+			type: Sequelize.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},

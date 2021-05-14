@@ -36,12 +36,14 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
     "helmet": "^4.6.0",
     "hpp": "^0.2.3",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
     "tedious": "^11.0.8"

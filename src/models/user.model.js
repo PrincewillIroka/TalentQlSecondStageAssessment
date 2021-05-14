@@ -9,6 +9,10 @@ const user = (sequelize, Sequelize) => {
 		email: {
 			type: Sequelize.STRING,
 			allowNull: false,
+			unique: {
+				args: true,
+				msg: 'Email address already exists!',
+			},
 		},
 		password: {
 			type: Sequelize.STRING,

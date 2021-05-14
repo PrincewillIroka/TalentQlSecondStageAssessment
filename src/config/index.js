@@ -6,6 +6,7 @@ const envVarsSchema = Joi.object({
 	PORT: Joi.string(),
 	APP_HOST: Joi.string(),
 	NODE_ENV: Joi.string(),
+	JWT_SECRET: Joi.string(),
 	DB_CONNECTION: Joi.string(),
 	DB_HOST: Joi.string(),
 	DB_PORT: Joi.number(),
@@ -22,6 +23,7 @@ export default {
 	host: process.env.APP_HOST,
 	port: process.env.PORT,
 	environment: process.env.NODE_ENV,
+	jwtSecret: envVars.JWT_SECRET,
 	db: {
 		db_connection: envVars.DB_CONNECTION,
 		database: envVars.DB_DATABASE,

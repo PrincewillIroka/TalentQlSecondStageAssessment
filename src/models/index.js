@@ -3,11 +3,15 @@ import database from '../database';
 import post from './post.model';
 import user from './user.model';
 
-const sequelize = database.sequelize;
+const sequelize = database.sequelize();
 
 const db = {
-	users: user(sequelize, Sequelize),
-	posts: post(sequelize, Sequelize),
+	users: () => {
+		return user(sequelize, Sequelize);
+	},
+	posts: () => {
+		return post(sequelize, Sequelize);
+	},
 	sequelize: sequelize,
 	Sequelize: Sequelize,
 };

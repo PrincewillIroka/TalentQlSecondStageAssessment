@@ -4,7 +4,6 @@ import config from '../config';
 
 let sequelize;
 export default {
-	sequelize: sequelize,
 	connect() {
 		try {
 			sequelize = new Sequelize(config.db.database, config.db.user, config.db.pass, {
@@ -36,5 +35,8 @@ export default {
 		} catch (e) {
 			console.log('Database disconnection error:', e);
 		}
+	},
+	sequelize() {
+		return sequelize;
 	},
 };

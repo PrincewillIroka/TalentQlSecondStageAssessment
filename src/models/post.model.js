@@ -5,7 +5,7 @@ const post = (sequelize, Sequelize) => {
 			autoIncrement: true,
 			primaryKey: true,
 		},
-		details: {
+		content: {
 			type: Sequelize.STRING,
 			allowNull: false,
 		},

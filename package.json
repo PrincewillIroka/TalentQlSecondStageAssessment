@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "start": "npm run build && node dist/server.js",
+    "build": "rm -rf dist && mkdir dist && babel src -s -d dist",
+    "dev": "env-cmd -f .env.local --fallback nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
     "@babel/preset-env": "^7.14.2",
     "@babel/register": "^7.13.16",
     "babel-loader": "^8.2.2",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1"

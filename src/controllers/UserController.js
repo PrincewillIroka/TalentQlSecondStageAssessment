@@ -41,3 +41,19 @@ export const handleUserLogin = async (req, res) => {
 		res.status(500).json(errorMessage(error));
 	}
 };
+
+export const handleResetPassword = async (req, res) => {
+	try {
+		const payload = req.body;
+		let { password, user } = payload;
+		const userId = user.id;
+		const Users = db.Users;
+		const foundUser = await Users.findOne({ where: { id: userId }, plain: true });
+		foundUser.password = hashPassword(password);
+		foundUser.save();
+		res.json(successMessage('Password updated successfully!'));
+	} catch (error) {
+		console.error(error);
+		res.status(500).json(errorMessage(error));
+	}
+};

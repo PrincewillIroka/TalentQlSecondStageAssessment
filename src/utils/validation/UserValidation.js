@@ -24,3 +24,7 @@ export const userLoginData = [
 		.withMessage('Invalid password')
 		.trim(),
 ];
+
+export const resetPasswordData = [
+	check('password').exists().isLength({ min: 1 }).trim(),
+];

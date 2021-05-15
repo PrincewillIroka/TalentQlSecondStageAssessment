@@ -11,7 +11,6 @@ initialize();
 
 async function initialize() {
 	let host = config.db.host,
-		port = config.db.port,
 		dbUser = config.db.user,
 		password = config.db.pass,
 		database = config.db.database;
@@ -33,6 +32,7 @@ async function initialize() {
 
 	const users = user(sequelize, Sequelize);
 	const posts = post(sequelize, Sequelize);
+	posts.belongsTo(users);
 
 	db.Users = users;
 	db.Posts = posts;

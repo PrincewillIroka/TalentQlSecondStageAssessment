@@ -1,5 +1,5 @@
 import db from '../models';
-import { successData, successMessage, serverError, errorData, errorMessage } from '../utils/helpers/ResponseHelper';
+import { successData, successMessage, errorMessage, errorData } from '../utils/helpers/ResponseHelper';
 import { hashPassword, comparePassword, generateToken } from '../utils/helpers/AuthHelper';
 
 export const handleUserRegistration = async (req, res) => {
@@ -14,13 +14,7 @@ export const handleUserRegistration = async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		const errors = error['errors'];
-
-		if (errors && Array.isArray(errors)) {
-			const duplicateErrorMessage = errors[0]['message'];
-			res.json(errorMessage(duplicateErrorMessage));
-		} else {
-			res.status(500).json(serverError());
-		}
+		res.status(500).json(errorMessage(errors[0]));
 	}
 };
 
@@ -34,15 +28,16 @@ export const handleUserLogin = async (req, res) => {
 			const hash = user.password;
 			const isValidPassword = comparePassword(password, hash);
 			if (isValidPassword) {
+				const { id, email } = user;
+				user.token = generateToken({ id, email });
 				delete user.password;
-				res.json(successData(user));
+				res.json(successData({ user }));
 			} else {
 				throw new Error('Invalid login credentials!');
 			}
 		});
 	} catch (error) {
 		console.error(error);
-		const errormessage = error['message'];
-		res.status(500).json(errorMessage(errormessage));
+		res.status(500).json(errorMessage(error));
 	}
 };

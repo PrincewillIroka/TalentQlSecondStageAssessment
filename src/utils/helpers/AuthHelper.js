@@ -14,13 +14,17 @@ export function comparePassword(password, hash) {
 }
 
 export function generateToken(data) {
-	const user = data;
 	const time = '24h';
-	return jwt.sign(user, JWT_SECRET, { expiresIn: time });
+	return jwt.sign(data, JWT_SECRET, { expiresIn: time });
 }
 
-export function verifyToken(data) {
-	const { token } = data;
-	const decoded = jwt.verify(token, JWT_SECRET);
-	return decoded;
+export function verifyToken(token) {
+	return new Promise((resolve, reject) => {
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			resolve(decoded);
+		} catch (error) {
+			reject(new Error('Invalid token!'));
+		}
+	});
 }

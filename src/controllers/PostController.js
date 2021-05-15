@@ -93,3 +93,33 @@ export const handleEditPost = async (req, res) => {
 		res.status(500).json(errorMessage(error));
 	}
 };
+
+export const handleLikePost = async (req, res) => {
+	try {
+		const payload = req.body;
+		let { postId, user, status } = payload;
+		const Posts = db.Posts;
+		const userId = user?.id;
+		const post = await Posts.findOne({ where: { id: postId }, plain: true });
+		if (post) {
+			let likes = post.likes ? post.likes.split(',') : [];
+
+			if (status === 'like') {
+				const isFound = likes.find((likedBy) => likedBy == userId);
+				if (!isFound) {
+					likes.push(userId);
+				}
+			} else if (status === 'unlike') {
+				likes = likes.filter((likedBy) => likedBy !== userId);
+			}
+			post.likes = likes.toString();
+			post.save();
+			res.json(successMessage(`User ${status}d the post!`));
+		} else {
+			res.status(422).json(errorMessage({ message: 'Post not found!' }));
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).json(errorMessage(error));
+	}
+};

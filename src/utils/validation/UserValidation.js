@@ -10,7 +10,17 @@ export const userRegistrationData = [
 		.isLength({ min: 6 })
 		.withMessage('Invalid password')
 		.trim(),
-	check('name').exists().isString().trim(),
+	check('name').exists().isString().isLength({ min: 1 }).trim(),
 ];
 
-export const userLoginData = [check('email').exists().isString().trim(), check('password').exists().isString().trim()];
+export const userLoginData = [
+	check('email').normalizeEmail().isEmail().withMessage('Invalid email').trim(),
+	check('password')
+		.exists({
+			checkNull: true,
+			checkFalsy: true,
+		})
+		.isLength({ min: 6 })
+		.withMessage('Invalid password')
+		.trim(),
+];

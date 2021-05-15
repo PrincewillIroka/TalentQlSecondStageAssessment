@@ -8,3 +8,8 @@ export const editPostData = [
 	check('postId').exists().isNumeric().trim(),
 	check('content').exists().isString().isLength({ min: 1 }).trim(),
 ];
+
+export const likePostData = [
+	check('postId').exists().isNumeric().trim(),
+	check('status').exists().isIn(['like', 'unlike']),
+];

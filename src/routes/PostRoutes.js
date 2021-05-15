@@ -1,6 +1,6 @@
 import express from 'express';
-import { handlePublishPost, handleDeletePost, handleGetPost, handleEditPost } from '../controllers/PostController';
-import { publishPostData, deletePostData, editPostData } from '../utils/validation/PostValidation';
+import { handlePublishPost, handleDeletePost, handleGetPost, handleEditPost, handleLikePost } from '../controllers/PostController';
+import { publishPostData, deletePostData, editPostData, likePostData } from '../utils/validation/PostValidation';
 import { validator } from '../utils/util';
 import { isValidUser } from '../middlewares/Authentication';
 
@@ -10,5 +10,6 @@ router.post('/publish', publishPostData, validator, isValidUser, handlePublishPo
 router.get('/:postId', validator, isValidUser, handleGetPost);
 router.delete('/', deletePostData, validator, isValidUser, handleDeletePost);
 router.patch('/', editPostData, validator, isValidUser, handleEditPost);
+router.post('/like', likePostData, validator, isValidUser, handleLikePost);
 
 export default router;

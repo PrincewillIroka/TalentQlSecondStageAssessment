@@ -10,10 +10,10 @@ const post = (sequelize, Sequelize) => {
 			allowNull: false,
 		},
 		likes: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
 		},
 		replies: {
-			type: Sequelize.JSON,
+			type: Sequelize.TEXT,
 		},
 	});
 

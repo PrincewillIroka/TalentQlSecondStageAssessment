@@ -20,8 +20,15 @@ export const handleGetPost = async (req, res) => {
 	try {
 		const { postId } = req.params;
 		const Posts = db.Posts;
-		await Posts.findOne({ id: postId }).then((response) => {
-			res.json(successData(response));
+		await Posts.findOne({ where: { id: postId }, plain: true }).then((post) => {
+			let replies = post.replies,
+				likes = post.likes;
+			replies = replies ? replies?.split(',') : [];
+			likes = likes ? likes?.split(',') : [];
+
+			post.likes = likes;
+			post.replies = replies;
+			res.json(successData(post));
 		});
 	} catch (error) {
 		console.error(error);
@@ -115,6 +122,29 @@ export const handleLikePost = async (req, res) => {
 			post.likes = likes.toString();
 			post.save();
 			res.json(successMessage(`User ${status}d the post!`));
+		} else {
+			res.status(422).json(errorMessage({ message: 'Post not found!' }));
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).json(errorMessage(error));
+	}
+};
+
+export const handleReplyPost = async (req, res) => {
+	try {
+		const payload = req.body;
+		let { postId, user, comment } = payload;
+		const Posts = db.Posts;
+		const userId = user?.id;
+		const post = await Posts.findOne({ where: { id: postId }, plain: true });
+		if (post) {
+			let replies = post.replies ? post.replies.split(',') : [];
+			const obj = { userId, comment };
+			replies.push(JSON.stringify(obj));
+			post.replies = replies.toString();
+			post.save();
+			res.json(successMessage(`User added a reply!`));
 		} else {
 			res.status(422).json(errorMessage({ message: 'Post not found!' }));
 		}

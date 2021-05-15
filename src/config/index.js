@@ -13,6 +13,10 @@ const envVarsSchema = Joi.object({
 	DB_DATABASE: Joi.string(),
 	DB_USERNAME: Joi.string(),
 	DB_PASSWORD: Joi.string(),
+	MAIL_HOST: Joi.string(),
+	MAIL_PORT: Joi.string(),
+	MAIL_USER: Joi.string(),
+	MAIL_PASSWORD: Joi.string(),
 })
 	.unknown(true)
 	.required();
@@ -31,5 +35,11 @@ export default {
 		user: envVars.DB_USERNAME,
 		port: envVars.DB_PORT,
 		host: envVars.DB_HOST,
+	},
+	mail: {
+		host: envVars.MAIL_HOST,
+		port: envVars.MAIL_PORT,
+		user: envVars.MAIL_USER,
+		pass: envVars.MAIL_PASSWORD,
 	},
 };

@@ -42,9 +42,11 @@
     "express": "^4.17.1",
     "express-validator": "^6.11.1",
     "helmet": "^4.6.0",
+    "hogan.js": "^3.0.2",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.0",
     "sequelize": "^6.6.2",
     "tedious": "^11.0.8"
   }

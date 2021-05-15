@@ -1,6 +1,7 @@
 import db from '../models';
 import { successData, successMessage, errorMessage, errorData } from '../utils/helpers/ResponseHelper';
 import { hashPassword, comparePassword, generateToken } from '../utils/helpers/AuthHelper';
+import { sendMail } from '../utils/helpers/EmailHelper';
 
 export const handleUserRegistration = async (req, res) => {
 	try {
@@ -8,7 +9,8 @@ export const handleUserRegistration = async (req, res) => {
 		let { email, password, name } = payload;
 		password = hashPassword(password);
 		const Users = db.Users;
-		await Users.create({ email, password, name }).then((response) => {
+		await Users.create({ email, password, name }).then(async (response) => {
+			await sendMail(email);
 			res.json(successMessage('Account created successfully!'));
 		});
 	} catch (error) {

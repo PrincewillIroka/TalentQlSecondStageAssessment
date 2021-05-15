@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post('/publish', publishPostData, validator, isValidUser, handlePublishPost);
 router.get('/:postId', validator, isValidUser, handleGetPost);
-router.delete('/delete', deletePostData, validator, handleDeletePost);
+router.delete('/', deletePostData, validator, isValidUser, handleDeletePost);
 
 export default router;

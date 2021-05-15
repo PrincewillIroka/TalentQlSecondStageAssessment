@@ -5,6 +5,5 @@ export const publishPostData = [
 ];
 
 export const deletePostData = [
-	check('token').exists().isString().trim(),
 	check('postId').exists().isNumeric().trim(),
 ];

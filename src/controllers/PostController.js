@@ -18,10 +18,31 @@ export const handlePublishPost = async (req, res) => {
 
 export const handleDeletePost = async (req, res) => {
 	try {
-		res.json(successData({}));
+		const payload = req.body;
+		let { postId, user } = payload;
+		const Posts = db.Posts;
+		const id = user?.id;
+		await Posts.findOne({ where: { id: postId } }).then(async (post) => {
+			post = post.get({ plain: true });
+			if (post?.userId === id) {
+				await Posts.destroy({
+					where: {
+						id: postId,
+					},
+				}).then((rowDeleted) => {
+					if (rowDeleted === 1) {
+						res.json(successMessage('Deleted successfully!'));
+					} else {
+						res.status(422).json(errorMessage({ message: 'Delete unsuccessfull!' }));
+					}
+				});
+			} else {
+				res.status(422).json(errorMessage({ message: 'Unauthorized access!' }));
+			}
+		});
 	} catch (error) {
 		console.error(error);
-		res.status(500).json(errorMessage());
+		res.status(500).json(errorMessage(error));
 	}
 };
 

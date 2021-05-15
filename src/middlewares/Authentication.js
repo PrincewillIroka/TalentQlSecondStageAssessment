@@ -12,7 +12,7 @@ export const isValidUser = async (req, res, next) => {
 			const { id } = data;
 			const user = await Users.findOne({ where: { id } });
 			if (user) {
-				req.params.user = user;
+				req.body.user = user;
 			} else {
 				return res.status(421).json({ success: false, error: 'User not found!' });
 			}

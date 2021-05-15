@@ -16,6 +16,19 @@ export const handlePublishPost = async (req, res) => {
 	}
 };
 
+export const handleGetPost = async (req, res) => {
+	try {
+		const { postId } = req.params;
+		const Posts = db.Posts;
+		await Posts.findOne({ id: postId }).then((response) => {
+			res.json(successData(response));
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json(errorMessage(error));
+	}
+};
+
 export const handleDeletePost = async (req, res) => {
 	try {
 		const payload = req.body;
@@ -46,12 +59,34 @@ export const handleDeletePost = async (req, res) => {
 	}
 };
 
-export const handleGetPost = async (req, res) => {
+export const handleEditPost = async (req, res) => {
 	try {
-		const { postId } = req.params;
+		const payload = req.body;
+		let { postId, user, content } = payload;
 		const Posts = db.Posts;
-		await Posts.findOne({ id: postId }).then((response) => {
-			res.json(successData(response));
+		const id = user?.id;
+		await Posts.findOne({ where: { id: postId }, plain: true }).then(async (post) => {
+			if (post?.userId === id) {
+				await Posts.update(
+					{ content },
+					{
+						where: {
+							id: postId,
+							userId: id,
+						},
+						returning: true,
+						plain: true,
+					}
+				).then(([numberOfAffectedRows, affectedRows]) => {
+					if (affectedRows === 1) {
+						res.json(successMessage('Post updated successfully!'));
+					} else {
+						res.status(422).json(errorMessage({ message: 'Post updating unsuccessfull!' }));
+					}
+				});
+			} else {
+				res.status(422).json(errorMessage({ message: 'Unauthorized access!' }));
+			}
 		});
 	} catch (error) {
 		console.error(error);

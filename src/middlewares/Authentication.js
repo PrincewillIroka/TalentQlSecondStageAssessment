@@ -10,7 +10,8 @@ export const isValidUser = async (req, res, next) => {
 		const data = await verifyToken(token);
 		if (data) {
 			const { id } = data;
-			const user = await Users.findOne({ where: { id } });
+			let user = await Users.findOne({ where: { id } });
+			user = user.get({ plain: true });
 			if (user) {
 				req.body.user = user;
 			} else {

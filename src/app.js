@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import fs from 'fs';
 import path from 'path';
 import routes from './routes';
-
+import { initialize } from './models';
 
 const app = express();
 app.use(express.json());
@@ -31,6 +31,8 @@ app.get('/', (req, res) => {
 		message: 'Welcome to TalentQl Assessment!',
 	});
 });
+
+initialize();
 
 // Create upload folder first if it doesn't exist
 (async () => {

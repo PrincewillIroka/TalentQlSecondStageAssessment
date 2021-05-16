@@ -3,6 +3,7 @@ import { successMessage, successData, errorMessage, errorData } from '../utils/h
 import { upload } from '../utils/helpers/UploadHelper';
 
 export const handlePublishPost = async (req, res) => {
+	const user = req.body.user;
 	upload(req, res, async (err) => {
 		try {
 			let images;
@@ -14,12 +15,13 @@ export const handlePublishPost = async (req, res) => {
 				}, []);
 				images = images.toString();
 			}
-			const payload = req.body;
-			let { content, user } = payload;
+
+			let content = req.body.content;
 			const Posts = db.Posts;
 			const id = user?.id;
-			await Posts.create({ userId: id, content, ...(images && { images }) }).then((response) => {
-				res.json(successMessage('Post created successfully!'));
+			await Posts.create({ userId: id, content, ...(images && { images }) }).then((post) => {
+				post = post.get({ plain: true });
+				res.json(successData(post));
 			});
 		} catch (error) {
 			console.error(error);
@@ -28,19 +30,23 @@ export const handlePublishPost = async (req, res) => {
 	});
 };
 
-export const handleGetPost = async (req, res) => {
+export const handleFetchPost = async (req, res) => {
 	try {
-		const { postId } = req.params;
+		const postId = req.params.postId;
 		const Posts = db.Posts;
 		await Posts.findOne({ where: { id: postId }, plain: true }).then((post) => {
-			let replies = post.replies,
-				likes = post.likes;
-			replies = replies ? replies?.split(',') : [];
-			likes = likes ? likes?.split(',') : [];
+			if (post) {
+				let replies = post?.replies,
+					likes = post?.likes;
+				replies = replies ? replies?.split(',') : [];
+				likes = likes ? likes?.split(',') : [];
 
-			post.likes = likes;
-			post.replies = replies;
-			res.json(successData(post));
+				post.likes = likes;
+				post.replies = replies;
+				res.json(successData(post));
+			} else {
+				res.status(422).json(errorMessage({ message: 'Post not found!' }));
+			}
 		});
 	} catch (error) {
 		console.error(error);
@@ -63,7 +69,7 @@ export const handleDeletePost = async (req, res) => {
 					},
 				}).then((rowDeleted) => {
 					if (rowDeleted === 1) {
-						res.json(successMessage('Deleted successfully!'));
+						res.json(successMessage('Post deleted successfully!'));
 					} else {
 						res.status(422).json(errorMessage({ message: 'Delete unsuccessfull!' }));
 					}
@@ -85,26 +91,30 @@ export const handleEditPost = async (req, res) => {
 		const Posts = db.Posts;
 		const id = user?.id;
 		await Posts.findOne({ where: { id: postId }, plain: true }).then(async (post) => {
-			if (post?.userId === id) {
-				await Posts.update(
-					{ content },
-					{
-						where: {
-							id: postId,
-							userId: id,
-						},
-						returning: true,
-						plain: true,
-					}
-				).then(([numberOfAffectedRows, affectedRows]) => {
-					if (affectedRows === 1) {
-						res.json(successMessage('Post updated successfully!'));
-					} else {
-						res.status(422).json(errorMessage({ message: 'Post updating unsuccessfull!' }));
-					}
-				});
+			if (post) {
+				if (post?.userId === id) {
+					await Posts.update(
+						{ content },
+						{
+							where: {
+								id: postId,
+								userId: id,
+							},
+							returning: true,
+							plain: true,
+						}
+					).then(([numberOfAffectedRows, affectedRows]) => {
+						if (affectedRows === 1) {
+							res.json(successMessage('Post updated successfully!'));
+						} else {
+							res.status(422).json(errorMessage({ message: 'Post updating unsuccessfull!' }));
+						}
+					});
+				} else {
+					res.status(422).json(errorMessage({ message: 'Unauthorized access!' }));
+				}
 			} else {
-				res.status(422).json(errorMessage({ message: 'Unauthorized access!' }));
+				res.status(422).json(errorMessage({ message: 'Post not found!' }));
 			}
 		});
 	} catch (error) {

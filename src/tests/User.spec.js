@@ -1,17 +1,11 @@
 import chai, { expect } from 'chai';
 import chaiHTTP from 'chai-http';
 import app from '../app';
-// import database from '../models';
 
 chai.use(chaiHTTP);
 chai.should();
 
 export default () => {
-	const userData = {
-		email: 'test@gmail.com',
-		password: '1234567890',
-		name: 'Test Account',
-	};
 	let token;
 
 	describe('User', () => {
@@ -29,7 +23,12 @@ export default () => {
 		});
 
 		describe('POST /api/users/registration', () => {
-			it('should create a user', (done) => {
+			const userData = {
+				email: 'test@gmail.com',
+				password: '1234567890',
+				name: 'Test Account',
+			};
+			it('should register a user', (done) => {
 				chai.request(app)
 					.post('/api/users/registration')
 					.send(userData)
@@ -44,7 +43,11 @@ export default () => {
 	});
 
 	describe('POST /api/users/login', () => {
-		it('should create a user', (done) => {
+		const userData = {
+			email: 'test@gmail.com',
+			password: '1234567890',
+		};
+		it('should login a user', (done) => {
 			chai.request(app)
 				.post('/api/users/login')
 				.send(userData)
@@ -62,7 +65,7 @@ export default () => {
 		it(`should reset a user's password`, (done) => {
 			chai.request(app)
 				.patch('/api/users/resetPassword')
-				.set('Bearer ', token)
+				.set({ Authorization: `Bearer ${token}` })
 				.send({ password: '1234567891' })
 				.end((err, res) => {
 					res.should.have.status(200);

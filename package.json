@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha --require @babel/register ./src/tests/*.js --exit",
+    "test": "set NODE_ENV=test && mocha --require @babel/register ./src/tests/*.js --exit",
     "start": "npm run build && node dist/server.js",
     "build": "rm -rf dist && mkdir dist && babel src -s -d dist && cp -r src/static dist",
     "dev": "nodemon --exec babel-node src/server.js"
@@ -32,7 +32,6 @@
     "babel-loader": "^8.2.2",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
-    "env-cmd": "^10.1.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",

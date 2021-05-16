@@ -2,7 +2,7 @@ import express from 'express';
 import {
 	handlePublishPost,
 	handleDeletePost,
-	handleGetPost,
+	handleFetchPost,
 	handleEditPost,
 	handleLikePost,
 	handleReplyPost,
@@ -19,7 +19,7 @@ import { isValidUser } from '../middlewares/Authentication';
 const router = express.Router();
 
 router.post('/publish', isValidUser, handlePublishPost);
-router.get('/:postId', validator, isValidUser, handleGetPost);
+router.get('/:postId', validator, isValidUser, handleFetchPost);
 router.delete('/', deletePostData, validator, isValidUser, handleDeletePost);
 router.patch('/', editPostData, validator, isValidUser, handleEditPost);
 router.post('/like', likePostData, validator, isValidUser, handleLikePost);

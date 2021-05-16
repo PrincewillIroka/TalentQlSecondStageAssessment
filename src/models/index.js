@@ -5,18 +5,23 @@ import config from '../config';
 import post from './post.model';
 import user from './user.model';
 
+let host = config.db.host,
+	dbUser = config.db.user,
+	password = config.db.pass,
+	database = config.db.database,
+	environment = config.environment;
+
 const db = {};
 
-initialize();
-
-async function initialize() {
-	let host = config.db.host,
-		dbUser = config.db.user,
-		password = config.db.pass,
-		database = config.db.database;
-
+export async function initialize() {
 	const connection = await mysql.createConnection({ host, user: dbUser, password });
-	await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+
+	// Drop db in test environment to avoid duplicates when running tests
+	// if (environment.includes('test')) {
+	// 	await connection.query(`DROP DATABASE  IF EXISTS ${database}`);
+	// }
+
+	await connection.query(`CREATE DATABASE IF NOT EXISTS ${database}`);
 
 	const sequelize = new Sequelize(database, dbUser, password, {
 		host: host,

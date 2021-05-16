@@ -15,6 +15,9 @@ const post = (sequelize, Sequelize) => {
 		replies: {
 			type: Sequelize.TEXT,
 		},
+		images: {
+			type: Sequelize.TEXT,
+		},
 	});
 
 	return Post;

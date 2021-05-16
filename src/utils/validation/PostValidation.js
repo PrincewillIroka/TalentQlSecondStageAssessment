@@ -1,6 +1,4 @@
-import { check } from 'express-validator';
-
-export const publishPostData = [check('content').exists().isString().isLength({ min: 1 }).trim()];
+import { check, body,  } from 'express-validator';
 
 export const deletePostData = [check('postId').exists().isNumeric().trim()];
 

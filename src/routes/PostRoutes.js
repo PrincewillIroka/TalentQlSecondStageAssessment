@@ -8,7 +8,6 @@ import {
 	handleReplyPost,
 } from '../controllers/PostController';
 import {
-	publishPostData,
 	deletePostData,
 	editPostData,
 	likePostData,
@@ -19,7 +18,7 @@ import { isValidUser } from '../middlewares/Authentication';
 
 const router = express.Router();
 
-router.post('/publish', publishPostData, validator, isValidUser, handlePublishPost);
+router.post('/publish', isValidUser, handlePublishPost);
 router.get('/:postId', validator, isValidUser, handleGetPost);
 router.delete('/', deletePostData, validator, isValidUser, handleDeletePost);
 router.patch('/', editPostData, validator, isValidUser, handleEditPost);

@@ -1,19 +1,31 @@
 import db from '../models';
 import { successMessage, successData, errorMessage, errorData } from '../utils/helpers/ResponseHelper';
+import { upload } from '../utils/helpers/UploadHelper';
 
 export const handlePublishPost = async (req, res) => {
-	try {
-		const payload = req.body;
-		let { content, user } = payload;
-		const Posts = db.Posts;
-		const id = user?.id;
-		await Posts.create({ userId: id, content }).then((response) => {
-			res.json(successMessage('Post created successfully!'));
-		});
-	} catch (error) {
-		console.error(error);
-		res.status(500).json(errorMessage(error));
-	}
+	upload(req, res, async (err) => {
+		try {
+			let images;
+			const files = req.files;
+			if (files?.length) {
+				images = files.reduce((acc, cur) => {
+					acc.push(cur.originalname);
+					return acc;
+				}, []);
+				images = images.toString();
+			}
+			const payload = req.body;
+			let { content, user } = payload;
+			const Posts = db.Posts;
+			const id = user?.id;
+			await Posts.create({ userId: id, content, ...(images && { images }) }).then((response) => {
+				res.json(successMessage('Post created successfully!'));
+			});
+		} catch (error) {
+			console.error(error);
+			res.status(500).json(errorMessage(error));
+		}
+	});
 };
 
 export const handleGetPost = async (req, res) => {

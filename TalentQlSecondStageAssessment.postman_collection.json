@@ -24,22 +24,22 @@
 								{
 									"key": "password",
 									"value": "pass0000",
+									"description": "[Required] Not less than 6 characters",
 									"type": "text"
 								},
 								{
 									"key": "name",
 									"value": "John Goodman",
+									"description": "[Required]",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/users/registration",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/users/registration",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"users",
@@ -60,22 +60,22 @@
 								{
 									"key": "email",
 									"value": "john@gmail.com",
+									"description": "[Required]",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "pass0000",
+									"description": "[Required] Not less than 6 characters",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/users/login",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/users/login",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"users",
@@ -139,7 +139,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTYyMTA2MzM3OSwiZXhwIjoxNjIxMTQ5Nzc5fQ.31SenAe6P5aq15L1jM7V2XugYWgvtdt05nWoz8c54fw",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGdtYWlsLmNvbSIsImlhdCI6MTYyMTE2MDMxNywiZXhwIjoxNjIxMjQ2NzE3fQ.i_ujn32NktNb3h2n1mx0qTr6cdmuyKJCdbXetOZErWA",
 									"type": "string"
 								}
 							]
@@ -147,22 +147,34 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
 									"key": "content",
 									"value": "This is a new post with custom content.",
+									"contentType": "multipart/form-data",
+									"description": "[Required] The value/content of the post",
 									"type": "text"
+								},
+								{
+									"key": "images",
+									"contentType": "multipart/form-data",
+									"description": "[Optional] Images attached to the post",
+									"type": "file",
+									"src": [
+										"/C:/Users/user/Pictures/Relationship Quotes/132203030_738318873729644_1153885138166817094_n.jpg",
+										"/C:/Users/user/Pictures/Relationship Quotes/152596492_2047752642033427_610625589146738097_o.jpg",
+										"/C:/Users/user/Pictures/Relationship Quotes/154089079_1612429049145155_5223075871984899041_n.jpg",
+										"/C:/Users/user/Pictures/Relationship Quotes/162430075_2071913496284008_1542405274757438697_o.jpg"
+									]
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/posts/publish",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts/publish",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts",
@@ -188,12 +200,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/posts/:postId",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts/:postId",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts",
@@ -202,7 +212,8 @@
 							"variable": [
 								{
 									"key": "postId",
-									"value": "1"
+									"value": "1",
+									"description": "[Required] The id of the post"
 								}
 							]
 						}
@@ -230,17 +241,16 @@
 								{
 									"key": "postId",
 									"value": "1",
+									"description": "[Required] The id of the post",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/posts",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts"
@@ -270,22 +280,22 @@
 								{
 									"key": "postId",
 									"value": "6",
+									"description": "[Required] The id of the post",
 									"type": "text"
 								},
 								{
 									"key": "content",
 									"value": "Make a simple update to the post",
+									"description": "[Required] The value/content of the post",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/posts",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts"
@@ -315,22 +325,22 @@
 								{
 									"key": "postId",
 									"value": "1",
+									"description": "[Required] The id of the post",
 									"type": "text"
 								},
 								{
 									"key": "status",
 									"value": "like",
+									"description": "[Required] The status of the post. Takes \"like\" or \"unlike\" as its value",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/posts/like",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts/like",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts",
@@ -361,22 +371,22 @@
 								{
 									"key": "postId",
 									"value": "2",
+									"description": "[Required] The id of the post",
 									"type": "text"
 								},
 								{
 									"key": "comment",
 									"value": "Another reply on a post",
+									"description": "[Required] The value/content of the reply",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/posts/reply",
-							"protocol": "http",
+							"raw": "{{host_url}}/api/posts/reply",
 							"host": [
-								"localhost"
+								"{{host_url}}"
 							],
-							"port": "4000",
 							"path": [
 								"api",
 								"posts",
@@ -387,6 +397,50 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Get Image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host_url}}/images/132203030_738318873729644_1153885138166817094_n.jpg",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"images",
+						"132203030_738318873729644_1153885138166817094_n.jpg"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host_url",
+			"value": "http://localhost:4000"
 		}
 	]
 }
